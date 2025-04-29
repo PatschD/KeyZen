@@ -1,9 +1,9 @@
 import { Alphabet } from './utils';
 
-export const letterStats: Record<string, any> = {};
+export const letterStats: any = $state({ ls: {} });
 
 for (const a of Alphabet) {
-	letterStats[a] = {
+	letterStats.ls[a] = {
 		total: 0,
 		correct: 0
 	};
