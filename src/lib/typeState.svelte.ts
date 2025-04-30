@@ -6,6 +6,7 @@ type tType_state = {
 	totalKeys: number;
 	lastChunkCursor: number;
 	lastChunkKeys: number;
+	lastChunkTimestamp: number;
 	increment: () => void;
 	decrement: () => void;
 };
@@ -22,6 +23,7 @@ export const type_state = $state<tType_state>({
 	chunk: 0,
 	lastChunkCursor: 0,
 	lastChunkKeys: 0,
+	lastChunkTimestamp: 0,
 	increment() {
 		if (this.cursor === this.text.length) return;
 		if (this.text[this.cursor + 1] === '\t') {

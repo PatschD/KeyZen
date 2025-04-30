@@ -4,6 +4,7 @@ export const timer = $state({
 	isPaused: false,
 	hasStarted: false,
 	interval: undefined as number | undefined, // Explicitly type interval ID
+	lasInteraction: Date.now(),
 
 	/**
 	 * Starts the timer interval.
@@ -14,6 +15,7 @@ export const timer = $state({
 		if (this.interval) {
 			clearInterval(this.interval);
 		}
+		this.lasInteraction = Date.now();
 		// Set up the new interval using an arrow function wrapper
 		// This ensures 'this.tick()' is called with the correct 'this' context.
 		this.interval = setInterval(() => {
@@ -30,6 +32,10 @@ export const timer = $state({
 	 * This method is now correctly called by the interval in start().
 	 */
 	tick() {
+		const ms = Date.now() - this.lasInteraction;
+		if (ms > 3000) {
+			return;
+		}
 		this.time++;
 		// You might want to add console.log(this.time) here for debugging
 	},

@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { timer } from '$lib/timer.svelte';
 	import { type_state } from '$lib/typeState.svelte';
 	import { updateUnderline } from '$lib/typing';
+	import { untrack } from 'svelte';
 	import Metrics from './Metrics.svelte';
 
 	let underline: HTMLDivElement;
@@ -77,6 +79,7 @@
 	}
 
 	function onKeyDown(e: KeyboardEvent) {
+		untrack(() => (timer.lasInteraction = Date.now()));
 		if (e.key === 'Backspace') {
 			const reduce = type_state.text[type_state.cursor - 1] === '\t' ? 2 : 1;
 			type_state.cursor = Math.max(bounds.lower, type_state.cursor - reduce);
@@ -121,7 +124,7 @@
 <svelte:window on:keydown|preventDefault={onKeyDown} />
 
 <div>
-	<div class="flex h-[70vh] flex-col items-center justify-center">
+	<div class="flex h-[70vh] w-[70vw] flex-col items-center justify-center">
 		<div class="text-container" bind:this={textContainer}>
 			{#each type_state.text as t, i (i)}
 				{#if i >= bounds_pre.lower && i < bounds_post.upper}

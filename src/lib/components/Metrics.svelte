@@ -34,14 +34,23 @@
 				{/if}
 			{/if}
 		</div>
+		&nbsp;&nbsp;
 		<div>
-			wpm: {stats.wpm}{timer.time}
+			wpm: {stats.wpm[stats.wpm.length - 1] || '100'}
+			{#if stats.wpm.length > 1}
+				{@const diff = stats.wpm[stats.wpm.length - 1] - stats.wpm[stats.wpm.length - 2]}
+				{#if diff >= 0}
+					(+{diff})
+				{:else}
+					({diff})
+				{/if}
+			{/if}
 		</div>
 	</div>
 
 	<div class="flex w-[728px] flex-wrap">
 		{#each Alphabet as a, i (i)}
-			{@const c = letterStats.ls[a]}
+			{@const c = letterStats.global[a]}
 			{@const color = getColorLetters(c)}
 			<div class="m-0.5 min-w-[24px] rounded p-1 text-center" style={color}>{a}</div>
 		{/each}

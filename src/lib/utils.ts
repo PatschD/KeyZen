@@ -19,7 +19,7 @@ export const Alphabet = [
 	'r',
 	's',
 	't',
-	'o',
+	'u',
 	'v',
 	'w',
 	'x',
