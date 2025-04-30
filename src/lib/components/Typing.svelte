@@ -19,7 +19,8 @@
 		if (type_state.cursor === bounds.upper) {
 			type_state.chunk += 1;
 		} else if (type_state.cursor < bounds.lower) {
-			type_state.chunk = Math.max(0, type_state.chunk - 1);
+			console.log('NO');
+			// type_state.chunk = Math.max(0, type_state.chunk - 1);
 		}
 
 		updateUnderline(type_state, textContainer, underline);
