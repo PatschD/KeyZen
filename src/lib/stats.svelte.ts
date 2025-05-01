@@ -23,7 +23,6 @@ export const stats = $state({
 });
 
 export function computeChunkStats() {
-	console.log('computing Chunk Stats');
 	const currentCursor = untrack(() => type_state.cursor);
 	const lastCursor = untrack(() => type_state.lastChunkCursor);
 	const lastChunkKeys = untrack(() => type_state.lastChunkKeys);

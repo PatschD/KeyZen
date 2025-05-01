@@ -1,6 +1,5 @@
 <script>
-	import PopoverLinePlot from '$lib/components/PopoverLinePlot.svelte';
+	import Summary from '$lib/components/Summary.svelte';
 </script>
 
-<!-- <PopoverLinePlot /> -->
-<div>a</div>
+<Summary />

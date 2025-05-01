@@ -27,7 +27,7 @@ export const Alphabet = [
 	'z'
 ];
 
-export function getColorLetters(c: { total: number; correct: number }): string {
+export function getColorLetters(c: { total: number; correct: number }, minNumber = 5): string {
 	// --- Customization ---
 	const mutedSaturation = 70; // Saturation percentage (0-100)
 	const mutedLightness = 75; // Lightness percentage (0-100)
@@ -44,7 +44,7 @@ export function getColorLetters(c: { total: number; correct: number }): string {
 	let colorValue;
 
 	// Use neutral gray (with alpha) if total is too low or data is invalid
-	if (!c || typeof c.total !== 'number' || typeof c.correct !== 'number' || c.total <= 5) {
+	if (!c || typeof c.total !== 'number' || typeof c.correct !== 'number' || c.total <= minNumber) {
 		colorValue = `hsla(${neutralGrayBaseHue}, ${neutralGrayBaseSaturation}%, ${neutralGrayBaseLightness}%, ${alphaValue})`;
 	} else {
 		// 1. Calculate the raw ratio
@@ -80,4 +80,48 @@ export function getColorLetters(c: { total: number; correct: number }): string {
 
 	// 5. Return the CSS style string
 	return `background-color: ${colorValue};`;
+}
+
+export function calculateMean(data: number[]) {
+	// Check if the input is a valid, non-empty array
+	if (!Array.isArray(data) || data.length === 0) {
+		return NaN; // Mean is undefined for empty or invalid input
+	}
+
+	// Calculate the sum using reduce
+	const sum = data.reduce((accumulator, currentValue) => {
+		// Ensure values are numbers, otherwise the sum might become NaN implicitly
+		const num = Number(currentValue);
+		return accumulator + (isNaN(num) ? 0 : num); // Add 0 if value is not a number, or handle as error
+	}, 0);
+
+	// Divide sum by the number of elements
+	return sum / data.length;
+}
+
+export function calculateStandardDeviation(data: number[]) {
+	// Check if the input is a valid array with at least two elements
+	if (!Array.isArray(data) || data.length < 2) {
+		// Sample standard deviation requires at least two data points
+		return NaN;
+	}
+
+	// 1. Calculate the mean
+	const mean = calculateMean(data);
+	if (isNaN(mean)) {
+		// If mean couldn't be calculated (e.g., non-numeric data), std dev is also NaN
+		return NaN;
+	}
+
+	// 2. Calculate the sum of squared differences from the mean
+	const sumOfSquaredDifferences = data.reduce((accumulator, currentValue) => {
+		const difference = Number(currentValue) - mean;
+		return accumulator + difference * difference;
+	}, 0);
+
+	// 3. Calculate the sample variance (divide by n-1)
+	const variance = sumOfSquaredDifferences / (data.length - 1);
+
+	// 4. Return the square root of the variance
+	return Math.sqrt(variance);
 }

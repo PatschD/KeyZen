@@ -4,6 +4,8 @@
 	import { updateUnderline } from '$lib/typing';
 	import { untrack } from 'svelte';
 	import Metrics from './Metrics.svelte';
+	import { stats } from '$lib/stats.svelte';
+	import { summaryState } from '$lib/summary.svelte';
 
 	let underline: HTMLDivElement;
 	let textContainer: HTMLDivElement;
@@ -15,7 +17,8 @@
 
 	$effect(() => {
 		if (type_state.cursor === type_state.text.length) {
-			console.log('TODO!! final accuracy calculation. this part needs to be more modular');
+			untrack(() => stats.update());
+			summaryState.display = true;
 			return;
 		}
 		if (type_state.cursor === bounds.upper) {
