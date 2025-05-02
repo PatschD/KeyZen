@@ -4,6 +4,7 @@
 	import { type_state } from '$lib/typeState.svelte';
 	import { calculateMean, calculateStandardDeviation } from '$lib/utils';
 	import LetterStats from './LetterStats.svelte';
+	import LineSummary from './LineSummary.svelte';
 
 	const meanWPM = $derived.by(() => {
 		return Math.floor(calculateMean(stats.wpm));
@@ -26,8 +27,8 @@
 	});
 </script>
 
-<div class="flex h-screen w-full flex-col items-center justify-center align-middle">
-	<div>Lesson Summary</div>
+<div class="flex h-screen w-[70vw] flex-col items-center justify-center align-middle">
+	<div class="text-2xl font-bold">Lesson Summary</div>
 	<div>
 		accuracy: {meanAccuracy}(±{stdAccuracy})
 	</div>
@@ -47,4 +48,5 @@
 		time: {timer.time} seconds
 	</div>
 	<LetterStats />
+	<LineSummary />
 </div>

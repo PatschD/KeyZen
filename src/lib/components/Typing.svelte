@@ -126,8 +126,8 @@
 
 <svelte:window on:keydown|preventDefault={onKeyDown} />
 
-<div>
-	<div class="flex h-[70vh] w-[70vw] flex-col items-center justify-center">
+<div class="mt-12 h-full">
+	<div class="flex h-[70vh] flex-col items-center justify-center md:w-[70vw]">
 		<div class="text-container" bind:this={textContainer}>
 			{#each type_state.text as t, i (i)}
 				{#if i >= bounds_pre.lower && i < bounds_post.upper}

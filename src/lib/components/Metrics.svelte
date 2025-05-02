@@ -21,7 +21,7 @@
 </script>
 
 <div class="flex w-full flex-col items-center">
-	<div class="flex w-[728px]">
+	<div class="flex md:w-[728px]">
 		<div>
 			accuracy: {stats.accuracy[stats.accuracy.length - 1] || '100'} %
 			{#if stats.accuracy.length > 1}
@@ -48,7 +48,7 @@
 		</div>
 	</div>
 
-	<div class="flex w-[728px] flex-wrap">
+	<div class="flex w-full flex-wrap md:w-[728px]">
 		{#each Alphabet as a, i (i)}
 			{@const c = letterStats.global[a]}
 			{@const color = getColorLetters(c)}
