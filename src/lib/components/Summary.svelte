@@ -27,7 +27,7 @@
 	});
 </script>
 
-<div class="flex h-screen w-[70vw] flex-col items-center justify-center align-middle">
+<div class="flex h-full w-[70vw] flex-col items-center justify-center align-middle">
 	<div class="text-2xl font-bold">Lesson Summary</div>
 	<div>
 		accuracy: {meanAccuracy}(±{stdAccuracy})

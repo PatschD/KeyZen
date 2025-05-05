@@ -37,6 +37,7 @@ try {
 // --- API Endpoint Handler ---
 
 export async function POST({ request }) {
+	console.log('AM i here?');
 	// Check if the word list loaded correctly
 	if (!wordList || wordList.length === 0 || wordList[0] === 'error') {
 		// Check for fallback
@@ -53,10 +54,11 @@ export async function POST({ request }) {
 		console.error('Failed to parse request JSON body:', e);
 		throw svelteError(400, 'Invalid JSON data in request body.');
 	}
+	console.log(requestData);
 
 	// Extract data from the parsed body (provide defaults)
 	const errorRates = requestData.errorRates || {}; // Expect an object, default to empty
-	const numWordsToSample = typeof requestData.count === 'number' ? requestData.count : 20; // Default number of words
+	const numWordsToSample = typeof requestData.count === 'number' ? requestData.count : 10; // Default number of words
 	const baseWeight = typeof requestData.baseWeight === 'number' ? requestData.baseWeight : 1.0;
 	const errorScalingFactor = typeof requestData.scale === 'number' ? requestData.scale : 10.0; // Example scale
 
@@ -179,36 +181,3 @@ function sampleWordsByErrorRate(
 		return results;
 	}
 }
-
-// // Player's character error rates (example values)
-// const playerErrorRates = {
-// 	e: 0.15,
-// 	r: 0.25,
-// 	q: 0.6,
-// 	u: 0.3,
-// 	a: 0.05,
-// 	z: 0.1,
-// 	p: 0.08,
-// 	c: 0.12,
-// 	y: 0.2,
-// 	h: 0.18
-// };
-//
-// const numWords = 20;
-//
-// // Sample words using error rates from the loaded list
-// const sampledListErrorBased = sampleWordsByErrorRate(
-// 	wordList, // Use the loaded list
-// 	playerErrorRates,
-// 	numWords,
-// 	1.0, // baseWeight
-// 	10.0 // errorScalingFactor
-// );
-//
-// console.log(`\nSampling ${numWords} words from loaded list (${fullWordList.length} total)`);
-// console.log('--------------------');
-// console.log('Sampled words (biased by individual character error rates):');
-// console.log(sampledListErrorBased);
-
-// Optional: Show weights for a few words from the *actual* list if needed
-// This requires finding them in the fullWordList first.

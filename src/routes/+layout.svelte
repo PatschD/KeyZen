@@ -1,7 +1,13 @@
 <script lang="ts">
+	import Header from '$lib/components/Header.svelte';
 	import '../app.css';
 
 	let { children } = $props();
 </script>
 
-{@render children()}
+<div class="h-screen w-screen">
+	<Header />
+	<div class="flex flex-col items-center justify-center">
+		{@render children()}
+	</div>
+</div>

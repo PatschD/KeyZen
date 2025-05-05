@@ -5,20 +5,21 @@
 	import { untrack } from 'svelte';
 	import Metrics from './Metrics.svelte';
 	import { stats } from '$lib/stats.svelte';
-	import { summaryState } from '$lib/summary.svelte';
 
 	let underline: HTMLDivElement;
 	let textContainer: HTMLDivElement;
 	let displaySpace = '·';
 	let displayTab = '\u00A0\u00A0\u00A0\u00A0';
 
-	let chunk_seperator = '\n';
+	// let chunk_seperator = '\n';
+	let { chunk_seperator = '\n' } = $props();
+
 	let chunk_size = 1;
 
 	$effect(() => {
 		if (type_state.cursor === type_state.text.length) {
 			untrack(() => stats.update());
-			summaryState.display = true;
+			// summaryState.display = true;
 			return;
 		}
 		if (type_state.cursor === bounds.upper) {
