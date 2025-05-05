@@ -39,8 +39,6 @@ export function computeChunkStats() {
 	const timeText = currentText.slice(lastCursor, currentCursor);
 	const nWords = timeText.split(' ').length;
 	const wpm = Math.floor((nWords / (curentTime - lastTime)) * 60);
-	console.log(lastCursor, currentCursor, timeText);
-	console.log(curentTime, lastTime);
 
 	for (let i = lastCursor; i <= currentCursor; i++) {
 		const c = currentStats[i];

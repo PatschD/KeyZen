@@ -5,6 +5,7 @@
 	import { untrack } from 'svelte';
 	import Metrics from './Metrics.svelte';
 	import { stats } from '$lib/stats.svelte';
+	import Mode from './Mode.svelte';
 
 	let underline: HTMLDivElement;
 	let textContainer: HTMLDivElement;
@@ -154,6 +155,7 @@
 		</div>
 	</div>
 	<Metrics />
+	<Mode />
 </div>
 
 <style>

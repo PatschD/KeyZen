@@ -7,8 +7,10 @@
 	import { Alphabet } from '$lib/utils';
 	import { untrack } from 'svelte';
 
+	const stack: string[] = [];
+
 	async function fetchWords() {
-		type_state.text = 'loading...';
+		// type_state.text = 'loading...';
 		const errorRates = Alphabet.reduce((previous: any, current) => {
 			if (letterStats.global[current].total === 0) {
 				previous[current] = 0;
@@ -36,23 +38,45 @@
 		});
 		const json_response = await response.json();
 		const words = json_response.words.join(' ');
-		type_state.setNewText(words);
-		return words;
+		return words as string;
 	}
+
 	let lessonCount = $state(0);
 
+	async function addToStack() {
+		stack.push(await untrack(() => fetchWords()));
+	}
+
 	$effect(() => {
-		untrack(() => fetchWords());
+		(async function () {
+			type_state.text = 'loading...';
+			for (let i = stack.length; i < 3; i++) {
+				stack.push(await untrack(() => fetchWords()));
+			}
+			const first = stack.shift();
+			if (first) {
+				type_state.setNewText(first);
+			}
+		})();
 	});
 
 	$effect(() => {
-		if (lessonCount === 3) {
+		if (lessonCount === 10) {
 			summaryState.display = true;
 			return;
 		}
+
 		if (type_state.cursor === type_state.text.length) {
 			lessonCount++;
-			fetchWords();
+			untrack(() => {
+				const first = stack.shift();
+				if (first) {
+					type_state.setNewText(first);
+				} else {
+					type_state.setNewText(type_state.text);
+				}
+				addToStack();
+			});
 		}
 	});
 </script>

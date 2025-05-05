@@ -5,25 +5,26 @@ import { json, error as svelteError } from '@sveltejs/kit';
 
 // --- Load Word List (Runs Once on Server Start) ---
 
-let wordList: string[] = []; // Variable to hold the loaded words
+let wordListEasy: string[] = []; // Variable to hold the loaded words
+let wordListMedium: string[] = []; // Variable to hold the loaded words
+let wordListHard: string[] = []; // Variable to hold the loaded words
 
 try {
 	// 1. Determine the directory of the current file (__dirname equivalent for ES Modules)
 	const __filename = fileURLToPath(import.meta.url);
 	const __dirname = path.dirname(__filename);
 
-	// 2. Construct the full path to your JSON file
-	//    (Assumes typing_words.json is in the SAME directory as this +server.ts file)
-	const filePath = path.join(__dirname, 'typing_words.json');
+	const filePathEasy = path.join(__dirname, 'typing_words_easy.json');
+	let fileContent = fs.readFileSync(filePathEasy, 'utf-8');
+	wordListEasy = JSON.parse(fileContent);
 
-	// 3. Read the file content synchronously (fine for server startup)
-	console.log(`Attempting to read word list from: ${filePath}`);
-	const fileContent = fs.readFileSync(filePath, 'utf-8');
+	const filePathMedium = path.join(__dirname, 'typing_words_medium.json');
+	fileContent = fs.readFileSync(filePathMedium, 'utf-8');
+	wordListMedium = JSON.parse(fileContent);
 
-	// 4. Parse the JSON data into the wordList array
-	wordList = JSON.parse(fileContent);
-
-	console.log(`Successfully loaded ${wordList.length} words.`);
+	const filePathHard = path.join(__dirname, 'typing_words_hard.json');
+	fileContent = fs.readFileSync(filePathHard, 'utf-8');
+	wordListHard = JSON.parse(fileContent);
 } catch (error) {
 	// Log the error if reading/parsing fails
 	console.error('Error loading word list:', error);
@@ -37,15 +38,6 @@ try {
 // --- API Endpoint Handler ---
 
 export async function POST({ request }) {
-	console.log('AM i here?');
-	// Check if the word list loaded correctly
-	if (!wordList || wordList.length === 0 || wordList[0] === 'error') {
-		// Check for fallback
-		console.error('Word list not available for sampling.');
-		// Use SvelteKit's error helper for proper error responses
-		throw svelteError(500, 'Word list is unavailable on the server.');
-	}
-
 	let requestData;
 	try {
 		// Parse the JSON body from the request
@@ -55,6 +47,32 @@ export async function POST({ request }) {
 		throw svelteError(400, 'Invalid JSON data in request body.');
 	}
 	console.log(requestData);
+
+	const difficulty = requestData.difficulty || 0; // Expect an object, default to empty
+	let wordList;
+	switch (difficulty) {
+		case 0:
+			wordList = wordListEasy;
+			console.log('selecting easy words');
+			break;
+		case 1:
+			wordList = wordListMedium;
+			console.log('selecting medium words');
+			break;
+		case 2:
+			wordList = wordListHard;
+			console.log('selecting hard words');
+			break;
+		default:
+			console.log(difficulty, 'default');
+	}
+	// Check if the word list loaded correctly
+	if (!wordList || wordList.length === 0 || wordList[0] === 'error') {
+		// Check for fallback
+		console.error('Word list not available for sampling.');
+		// Use SvelteKit's error helper for proper error responses
+		throw svelteError(500, 'Word list is unavailable on the server.');
+	}
 
 	// Extract data from the parsed body (provide defaults)
 	const errorRates = requestData.errorRates || {}; // Expect an object, default to empty
