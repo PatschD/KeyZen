@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Summary from '$lib/components/Summary.svelte';
 	import Typing from '$lib/components/Typing.svelte';
+	import { difficulty } from '$lib/difficulty.svelte';
 	import { letterStats } from '$lib/stats.svelte';
 	import { summaryState } from '$lib/summary.svelte';
 	import { type_state } from '$lib/typeState.svelte';
@@ -22,7 +23,8 @@
 		}, {});
 
 		const payload = {
-			errorRates
+			...errorRates,
+			difficulty: difficulty.difficulty
 		};
 		const response = await fetch('/api/v1/wordList', {
 			// Target your POST endpoint
@@ -48,6 +50,8 @@
 	}
 
 	$effect(() => {
+		const dp = difficulty.difficulty;
+		stack.splice(0, stack.length);
 		(async function () {
 			type_state.text = 'loading...';
 			for (let i = stack.length; i < 3; i++) {

@@ -1,3 +1,7 @@
+<script lang="ts">
+	function resetAll() {}
+</script>
+
 <div class="mb-3 flex">
 	<a class="mx-2" href="/">TypingName</a>
 	<a class="mx-2" href="/endless">Endless</a>

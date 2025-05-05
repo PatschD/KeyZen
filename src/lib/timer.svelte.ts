@@ -33,7 +33,7 @@ export const timer = $state({
 	 */
 	tick() {
 		const ms = Date.now() - this.lasInteraction;
-		if (ms > 3000) {
+		if (ms > 1000) {
 			return;
 		}
 		this.time++;
