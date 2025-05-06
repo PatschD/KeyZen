@@ -14,9 +14,10 @@
 </script>
 
 <div class="mb-3 flex pt-5 pl-5">
-	<a class="mx-2" href="/" onclick={() => resetAll('/')}>KeyZen</a>
+	<a class="mx-2 font-bold" href="/" onclick={() => resetAll('/')}>KeyZen</a>
 	<a class="mx-2" href="/endless" onclick={() => resetAll('/endless')}>Endless</a>
 	<a class="mx-2" href="/code" onclick={() => resetAll('/code')}>Code</a>
 	<a class="mx-2" href="/practice" onclick={() => resetAll('/practise')}>Practice</a>
 	<a class="mx-2" href="/about" onclick={() => resetAll('/about')}>About</a>
+	<a class="mx-2" href="/">Github</a>
 </div>
