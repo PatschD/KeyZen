@@ -10,7 +10,7 @@
 	let underline: HTMLDivElement;
 	let textContainer: HTMLDivElement;
 	let displaySpace = '·';
-	let displayTab = '\u00A0\u00A0\u00A0\u00A0';
+	let displayTab = '\u00A0\u00A0';
 
 	// let chunk_seperator = '\n';
 	let { chunk_seperator = '\n' } = $props();

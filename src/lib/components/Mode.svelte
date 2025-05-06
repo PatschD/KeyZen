@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { difficulty } from '$lib/difficulty.svelte';
+	import { language } from '$lib/language.svelte';
 	import { summaryState } from '$lib/summary.svelte';
 	import { DropdownMenu } from 'bits-ui';
 
@@ -53,6 +54,31 @@
 						onclick={handleTriggerClick}
 					>
 						difficulty: {d}</DropdownMenu.Trigger
+					>
+
+					<DropdownMenu.Content class="rounded bg-gray-200 p-2">
+						<DropdownMenu.CheckboxItem
+							class="m-2 cursor-pointer"
+							onclick={() => (difficulty.difficulty = 0)}>easy</DropdownMenu.CheckboxItem
+						>
+						<DropdownMenu.CheckboxItem
+							class="m-2 cursor-pointer"
+							onclick={() => (difficulty.difficulty = 1)}>medium</DropdownMenu.CheckboxItem
+						>
+						<DropdownMenu.CheckboxItem
+							class="m-2 cursor-pointer"
+							onclick={() => (difficulty.difficulty = 2)}>hard</DropdownMenu.CheckboxItem
+						>
+					</DropdownMenu.Content>
+				</DropdownMenu.Root>
+			{:else if mode === 'code'}
+				<DropdownMenu.Root>
+					<DropdownMenu.Trigger
+						class="cursor-pointer"
+						onkeydown={handleTriggerKeyDown}
+						onclick={handleTriggerClick}
+					>
+						language: {language.lang}</DropdownMenu.Trigger
 					>
 
 					<DropdownMenu.Content class="rounded bg-gray-200 p-2">

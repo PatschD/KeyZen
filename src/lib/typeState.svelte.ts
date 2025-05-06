@@ -1,4 +1,6 @@
 import { intro } from './text/intro';
+import { javascriptCode } from './text/javascript';
+import { python } from './text/python';
 
 type tType_state = {
 	text: string;
@@ -17,11 +19,10 @@ type tType_state = {
 	setCode: () => void;
 	setAbout: () => void;
 	setMode: (m: string) => void;
+	skipTabs: () => void;
 };
 
 const text = `Welcome to your dedicated space for mastering the keyboard!\nTyping is a fundamental skill in our digital age, vital for work, study, and communication.\nEffective practice starts with good posture and positioning. Keep your fingers anchored on the home row keys and focus on technique, trying not to look down.\nWhen learning, prioritize accuracy over speed. Hitting the correct keys consistently builds the right muscle memory. Speed will naturally follow as your accuracy solidifies.\nConsistency unlocks progress. Aim for short, focused sessions daily. Just 10-15 minutes of dedicated practice each day makes a huge difference over time.\nThis platform provides the tools and exercises you need. Track your progress, stay motivated, and watch your typing skills transform. Ready to get started?`;
-
-const p2 = `def execute_and_log(cmd):\n\tlog(cmd, "command:")\n\t# Execute the command\n\tresult = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)\n\tlog(result.stdout, "STDOUT:")\n\tlog(result.stderr, "STDERR:")\n`;
 
 export const type_state = $state<tType_state>({
 	text: 'loading...',
@@ -46,7 +47,7 @@ export const type_state = $state<tType_state>({
 	},
 	setCode() {
 		this.reset();
-		this.text = p2;
+		this.text = javascriptCode;
 	},
 	setIntro() {
 		this.reset();
@@ -69,14 +70,17 @@ export const type_state = $state<tType_state>({
 	},
 	increment() {
 		if (this.cursor === this.text.length) return;
-		if (this.text[this.cursor + 1] === '\t') {
-			this.cursor += 2;
-		} else {
+		this.cursor++;
+		this.skipTabs();
+	},
+	skipTabs() {
+		if (this.cursor < this.text.length && this.text[this.cursor] === '\t') {
 			this.cursor++;
+			this.skipTabs(); // Recursive call to keep skipping tabs
 		}
 	},
 	decrement() {
-		this.cursor++;
+		this.cursor--;
 	},
 	setNewText(s) {
 		this.text = '';
