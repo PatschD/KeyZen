@@ -125,3 +125,67 @@ export function calculateStandardDeviation(data: number[]) {
 	// 4. Return the square root of the variance
 	return Math.sqrt(variance);
 }
+
+export function generateRandomCharacters(length: number, options: any = {}) {
+	// Default options
+	const config = {
+		lowercase: options.lowercase !== undefined ? options.lowercase : true,
+		uppercase: options.uppercase !== undefined ? options.uppercase : true,
+		numbers: options.numbers !== undefined ? options.numbers : true,
+		special: options.special !== undefined ? options.special : true,
+		spaces: options.spaces !== undefined ? options.spaces : false,
+		custom: options.custom || ''
+	};
+
+	// Character sets
+	const charSets = {
+		lowercase: 'abcdefghijklmnopqrstuvwxyz',
+		uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+		numbers: '0123456789',
+		special: '!@#$%^&*()_+-=[]{}|;:,.<>?/\\"\'`~',
+		spaces: ' '
+	};
+
+	// Build character pool based on options
+	let charPool = '';
+	if (config.lowercase) charPool += charSets.lowercase;
+	if (config.uppercase) charPool += charSets.uppercase;
+	if (config.numbers) charPool += charSets.numbers;
+	if (config.special) charPool += charSets.special;
+	if (config.spaces) charPool += charSets.spaces;
+	if (config.custom) charPool += config.custom;
+
+	// If no character types are selected, default to lowercase
+	if (charPool.length === 0) {
+		charPool = charSets.lowercase;
+		console.warn('No character types selected, defaulting to lowercase letters');
+	}
+
+	// Generate the random string
+	let result = '';
+	for (let i = 0; i < length; i++) {
+		const randomIndex = Math.floor(Math.random() * charPool.length);
+		result += charPool[randomIndex];
+	}
+
+	return result;
+}
+
+// Example usage:
+// Generate a 10-character string with all types except spaces
+// const randomString = generateRandomCharacters(10);
+// console.log(randomString);
+
+// Generate a 20-character string with only lowercase and special characters
+// const passwordString = generateRandomCharacters(20, {
+//   uppercase: false,
+//   numbers: false,
+//   spaces: false
+// });
+// console.log(passwordString);
+
+// Generate a 15-character string with custom characters included
+// const customString = generateRandomCharacters(15, {
+//   custom: "★☆♥♦♣♠♪♫"
+// });
+// console.log(customString);

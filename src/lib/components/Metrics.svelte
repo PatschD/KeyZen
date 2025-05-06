@@ -23,7 +23,7 @@
 <div class="flex w-full flex-col items-center">
 	<div class="flex md:w-[728px]">
 		<div>
-			accuracy: {stats.accuracy[stats.accuracy.length - 1] || '100'} %
+			accuracy: {stats.accuracy[stats.accuracy.length - 1] || '-'} %
 			{#if stats.accuracy.length > 1}
 				{@const diff =
 					stats.accuracy[stats.accuracy.length - 1] - stats.accuracy[stats.accuracy.length - 2]}
@@ -36,7 +36,7 @@
 		</div>
 		&nbsp;&nbsp;
 		<div>
-			wpm: {stats.wpm[stats.wpm.length - 1] || '100'}
+			wpm: {stats.wpm[stats.wpm.length - 1] || '-'}
 			{#if stats.wpm.length > 1}
 				{@const diff = stats.wpm[stats.wpm.length - 1] - stats.wpm[stats.wpm.length - 2]}
 				{#if diff >= 0}
