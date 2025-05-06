@@ -1,5 +1,7 @@
+import { c } from './text/c';
 import { intro } from './text/intro';
 import { javascriptCode } from './text/javascript';
+import { programmingLanguages } from './text/programming_languages';
 import { python } from './text/python';
 
 type tType_state = {
@@ -16,7 +18,7 @@ type tType_state = {
 	setNewText: (s: string) => void;
 	reset: () => void;
 	setIntro: () => void;
-	setCode: () => void;
+	setCode: (language: string) => void;
 	setAbout: () => void;
 	setMode: (m: string) => void;
 	skipTabs: () => void;
@@ -39,15 +41,28 @@ export const type_state = $state<tType_state>({
 				this.setIntro();
 				break;
 			case 'code':
-				this.setCode();
+				this.setCode('python');
 				break;
 			default:
 				break;
 		}
 	},
-	setCode() {
+	setCode(language = 'python') {
 		this.reset();
-		this.text = javascriptCode;
+		switch (language) {
+			case 'python':
+				this.text = programmingLanguages.python;
+				break;
+			case 'js':
+				this.text = programmingLanguages.js;
+				break;
+			case 'rust':
+				this.text = programmingLanguages.rust;
+				break;
+			case 'c':
+				this.text = programmingLanguages.c;
+				break;
+		}
 	},
 	setIntro() {
 		this.reset();

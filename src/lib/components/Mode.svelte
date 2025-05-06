@@ -84,15 +84,19 @@
 					<DropdownMenu.Content class="rounded bg-gray-200 p-2">
 						<DropdownMenu.CheckboxItem
 							class="m-2 cursor-pointer"
-							onclick={() => (difficulty.difficulty = 0)}>easy</DropdownMenu.CheckboxItem
+							onclick={() => (language.lang = 'python')}>pthon</DropdownMenu.CheckboxItem
 						>
 						<DropdownMenu.CheckboxItem
 							class="m-2 cursor-pointer"
-							onclick={() => (difficulty.difficulty = 1)}>medium</DropdownMenu.CheckboxItem
+							onclick={() => (language.lang = 'js')}>javascript</DropdownMenu.CheckboxItem
 						>
 						<DropdownMenu.CheckboxItem
 							class="m-2 cursor-pointer"
-							onclick={() => (difficulty.difficulty = 2)}>hard</DropdownMenu.CheckboxItem
+							onclick={() => (language.lang = 'rust')}>rust</DropdownMenu.CheckboxItem
+						>
+						<DropdownMenu.CheckboxItem
+							class="m-2 cursor-pointer"
+							onclick={() => (language.lang = 'c')}>c</DropdownMenu.CheckboxItem
 						>
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>
