@@ -19,5 +19,5 @@
 	<a class="mx-2" href="/code" onclick={() => resetAll('/code')}>Code</a>
 	<a class="mx-2" href="/practice" onclick={() => resetAll('/practise')}>Practice</a>
 	<a class="mx-2" href="/about" onclick={() => resetAll('/about')}>About</a>
-	<a class="mx-2" href="/">Github</a>
+	<a class="mx-2" href="https://github.com/PatschD/KeyZen">Github</a>
 </div>
