@@ -146,6 +146,6 @@
 	});
 </script>
 
-<div class="h-[35vh] w-full bg-white p-4">
+<div class="h-[30vh] w-full bg-white p-4">
 	<canvas id="fullAlphabetAccuracyChart"></canvas>
 </div>

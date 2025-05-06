@@ -11,6 +11,8 @@ type tType_state = {
 	decrement: () => void;
 	setNewText: (s: string) => void;
 	reset: () => void;
+	setIntro: () => void;
+	setMode: (m: string) => void;
 };
 
 const text = `Welcome to your dedicated space for mastering the keyboard!\nTyping is a fundamental skill in our digital age, vital for work, study, and communication.\nEffective practice starts with good posture and positioning. Keep your fingers anchored on the home row keys and focus on technique, trying not to look down.\nWhen learning, prioritize accuracy over speed. Hitting the correct keys consistently builds the right muscle memory. Speed will naturally follow as your accuracy solidifies.\nConsistency unlocks progress. Aim for short, focused sessions daily. Just 10-15 minutes of dedicated practice each day makes a huge difference over time.\nThis platform provides the tools and exercises you need. Track your progress, stay motivated, and watch your typing skills transform. Ready to get started?`;
@@ -26,6 +28,18 @@ export const type_state = $state<tType_state>({
 	lastChunkCursor: 0,
 	lastChunkKeys: 0,
 	lastChunkTimestamp: 0,
+	setMode(s) {
+		switch (s) {
+			case '/':
+				this.setIntro();
+				break;
+		}
+	},
+	setIntro() {
+		this.reset();
+		this.text = text;
+	},
+
 	reset() {
 		this.text = '';
 		this.cursor = 0;

@@ -8,19 +8,6 @@
 	import { untrack } from 'svelte';
 	import { DropdownMenu } from 'bits-ui';
 
-	$effect(() => {
-		untrack(() => timer.start());
-	});
-
-	$effect(() => {
-		const currentChunk = type_state.chunk;
-
-		if (currentChunk === 0) {
-			return;
-		} else {
-			untrack(() => stats.update());
-		}
-	});
 	const mode = $page.url.pathname.replace('/', '') || 'intro';
 	const d = $derived.by(() => {
 		let d;

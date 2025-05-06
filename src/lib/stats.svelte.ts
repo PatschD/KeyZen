@@ -5,12 +5,16 @@ import { timer } from './timer.svelte';
 
 export const letterStats: any = $state({ chunks: [], global: {} });
 
-for (const a of Alphabet) {
-	letterStats.global[a] = {
-		total: 0,
-		correct: 0
-	};
+export function resetLetterStats() {
+	for (const a of Alphabet) {
+		letterStats.global[a] = {
+			total: 0,
+			correct: 0
+		};
+	}
 }
+
+resetLetterStats();
 
 export const stats = $state({
 	accuracy: [] as number[],
@@ -19,10 +23,15 @@ export const stats = $state({
 		const c = untrack(() => computeChunkStats());
 		this.accuracy.push(c.acc);
 		this.wpm.push(c.wpm);
+	},
+	reset() {
+		this.accuracy = [];
+		this.wpm = [];
 	}
 });
 
 export function computeChunkStats() {
+	console.log('update');
 	const currentCursor = untrack(() => type_state.cursor);
 	const lastCursor = untrack(() => type_state.lastChunkCursor);
 	const lastChunkKeys = untrack(() => type_state.lastChunkKeys);

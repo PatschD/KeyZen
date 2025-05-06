@@ -162,7 +162,7 @@
 	}); // No explicit dependencies needed for $effect with $state
 </script>
 
-<div class="h-[35vh] w-full bg-white p-4">
+<div class="h-[30vh] w-full bg-white p-4">
 	{#if !canvasEl}
 		<p>Loading chart...</p>
 	{/if}
