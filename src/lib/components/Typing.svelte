@@ -139,13 +139,16 @@
 <svelte:window on:keydown|preventDefault={onKeyDown} />
 
 <div class="mt-12 h-full">
-	<div class="flex h-[70vh] flex-col items-center justify-center md:w-[70vw]">
+	<div class="flex h-[70vh] w-full flex-col items-center justify-center xl:w-[70vw]">
 		<div class="text-container" bind:this={textContainer}>
 			{#each type_state.text as t, i (i)}
 				{#if i >= bounds_pre.lower && i < bounds_post.upper}
 					{@const inBounds = i >= bounds.lower && i < bounds.upper}
 					{@const color = getColor(i, type_state, inBounds)}
-					<span class={`mono-text ${color}`} id={`text_element_${i}`}>
+					<span
+						class={`mono-text ${color} text-xl md:text-2xl lg:text-3xl`}
+						id={`text_element_${i}`}
+					>
 						{#if t === ' '}
 							{displaySpace}
 						{:else if t === '\n'}
@@ -189,7 +192,6 @@
 	}
 
 	.mono-text {
-		font-size: 2rem; /* Adjust as needed */
 		letter-spacing: normal; /* Or adjust if needed, but keep it consistent */
 		display: inline-block; /* Helps contain the text properly */
 	}
