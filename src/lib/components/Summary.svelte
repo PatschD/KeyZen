@@ -21,8 +21,14 @@
 	const stdAccuracy = $derived.by(() => {
 		return Math.floor(calculateStandardDeviation(stats.accuracy));
 	});
+
+	const tK = $derived(stats.charactersTotal.reduce((prev, current) => (prev += current), 0));
+	const tT = $derived(stats.charactersTyped.reduce((prev, current) => (prev += current), 0));
+
 	const upk = $derived.by(() => {
-		let c = (type_state.totalKeys - type_state.cursor) / type_state.cursor;
+		const totalKeys = stats.charactersTotal.reduce((prev, current) => (prev += current), 0);
+		const totalTyped = stats.charactersTyped.reduce((prev, current) => (prev += current), 0);
+		let c = (totalTyped - totalKeys) / totalKeys;
 		return Math.floor(c * 100);
 	});
 </script>
@@ -36,10 +42,10 @@
 		wpm: {meanWPM}(±{stdWPM})
 	</div>
 	<div>
-		total characters: {type_state.text.length}
+		total characters: {tK}
 	</div>
 	<div>
-		typed characters: {type_state.totalKeys}
+		typed characters: {tT}
 	</div>
 	<div>
 		unproductive keystrokes: {Math.max(0, upk)}%

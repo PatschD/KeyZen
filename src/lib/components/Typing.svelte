@@ -23,7 +23,9 @@
 			// summaryState.display = true;
 			return;
 		}
-		if (type_state.cursor === bounds.upper) {
+		// console.log('i am here');
+		// console.log(bounds, type_state.cursor);
+		if (type_state.cursor >= bounds.upper) {
 			type_state.chunk += 1;
 		} else if (type_state.cursor < bounds.lower) {
 			console.log('NO');
@@ -49,7 +51,8 @@
 			chunk_size,
 			chunk_seperator
 		);
-		b.lower = Math.max(0, b.lower - 1);
+		// b.lower = Math.max(0, b.lower - 1);
+		if (b.lower > 0) b.lower += 1;
 		return b;
 	});
 
@@ -63,6 +66,13 @@
 		b.lower += 1;
 		return b;
 	});
+
+	// $effect(() => {
+	// 	for (let i = 0; i < 5; i++) {
+	// 		const b = getIndexOfWordRange(type_state.text, i, chunk_size, chunk_seperator);
+	// 		console.log(type_state.text.slice(b.lower, b.upper));
+	// 	}
+	// });
 
 	function getIndexOfWordRange(text: string, chunk: number, chunk_size: number, seperator = ' ') {
 		if (chunk < 0)
@@ -78,7 +88,7 @@
 		const upper = [...chunk_pre, ...chunk_main].join(seperator);
 
 		return {
-			lower: chunk === 0 ? lower.length : lower.length,
+			lower: chunk === 0 ? 0 : lower.length,
 			upper: upper.length
 		};
 	}

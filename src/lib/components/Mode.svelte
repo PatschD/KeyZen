@@ -1,11 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { difficulty } from '$lib/difficulty.svelte';
-	import { stats } from '$lib/stats.svelte';
 	import { summaryState } from '$lib/summary.svelte';
-	import { timer } from '$lib/timer.svelte';
-	import { type_state } from '$lib/typeState.svelte';
-	import { untrack } from 'svelte';
 	import { DropdownMenu } from 'bits-ui';
 
 	const mode = $page.url.pathname.replace('/', '') || 'intro';
@@ -26,6 +22,20 @@
 		}
 		return d;
 	});
+	// This variable controls whether the dropdown is open
+	let isOpen = false;
+
+	// Only allow opening via click, not keyboard
+	function handleTriggerKeyDown(event) {
+		// Prevent keyboard events (Space, Enter, Arrow keys) from opening the dropdown
+		event.preventDefault();
+		event.currentTarget.blur();
+	}
+
+	function handleTriggerClick() {
+		// Only toggle the dropdown when clicked
+		isOpen = !isOpen;
+	}
 </script>
 
 <div class="mt-4 flex w-full flex-col items-center">
@@ -37,7 +47,13 @@
 		<div>
 			{#if mode === 'practice'}
 				<DropdownMenu.Root>
-					<DropdownMenu.Trigger class="cursor-pointer">difficulty: {d}</DropdownMenu.Trigger>
+					<DropdownMenu.Trigger
+						class="cursor-pointer"
+						onkeydown={handleTriggerKeyDown}
+						onclick={handleTriggerClick}
+					>
+						difficulty: {d}</DropdownMenu.Trigger
+					>
 
 					<DropdownMenu.Content class="rounded bg-gray-200 p-2">
 						<DropdownMenu.CheckboxItem

@@ -11,6 +11,7 @@ export const timer = $state({
 	 * Clears any existing interval before starting a new one.
 	 */
 	start() {
+		this.reset();
 		// Clear existing interval if it's running
 		if (this.interval) {
 			clearInterval(this.interval);
@@ -63,6 +64,5 @@ export const timer = $state({
 		this.isPaused = false;
 		this.hasStarted = false;
 		this.interval = undefined;
-		console.log('Timer reset');
 	}
 });

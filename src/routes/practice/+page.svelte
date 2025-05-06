@@ -65,11 +65,6 @@
 	});
 
 	$effect(() => {
-		if (lessonCount === 10) {
-			summaryState.display = true;
-			return;
-		}
-
 		if (type_state.cursor === type_state.text.length) {
 			lessonCount++;
 			untrack(() => {

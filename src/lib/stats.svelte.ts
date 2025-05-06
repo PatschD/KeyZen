@@ -19,23 +19,29 @@ resetLetterStats();
 export const stats = $state({
 	accuracy: [] as number[],
 	wpm: [] as number[],
+	charactersTotal: [] as number[],
+	charactersTyped: [] as number[],
 	update() {
 		const c = untrack(() => computeChunkStats());
 		this.accuracy.push(c.acc);
 		this.wpm.push(c.wpm);
+		this.charactersTyped.push(c.charactersTyped);
+		this.charactersTotal.push(c.charactersTotal);
 	},
 	reset() {
 		this.accuracy = [];
 		this.wpm = [];
+		this.charactersTyped = [];
+		this.charactersTotal = [];
 	}
 });
 
 export function computeChunkStats() {
-	console.log('update');
 	const currentCursor = untrack(() => type_state.cursor);
 	const lastCursor = untrack(() => type_state.lastChunkCursor);
 	const lastChunkKeys = untrack(() => type_state.lastChunkKeys);
 	let currentKeys = untrack(() => type_state.totalKeys);
+	const keysTyped = currentKeys - lastChunkKeys;
 	currentKeys = currentKeys - lastChunkKeys;
 	const cursorMovement = currentCursor - lastCursor;
 
@@ -84,7 +90,9 @@ export function computeChunkStats() {
 	if (currentKeys === 0) {
 		return {
 			acc: 0,
-			wpm: 0
+			wpm: 0,
+			charactersTyped: 0,
+			charactersTotal: 0
 		}; // Or 100, depending on desired behaviour when no keys are typed yet
 	}
 
@@ -94,6 +102,8 @@ export function computeChunkStats() {
 	const acc = Math.floor((cursorMovement / currentKeys) * 100);
 	return {
 		acc,
-		wpm
+		wpm,
+		charactersTyped: keysTyped,
+		charactersTotal: cursorMovement
 	};
 }
