@@ -134,12 +134,13 @@
 					: 'text-red-200';
 		}
 	}
-	let maxLineWidth = 40;
-	let tolerance = 10;
+	let maxLineWidth = 35;
+	let tolerance = 5;
 	let lastNewline = 0;
 	onMount(() => (lastNewline = 0));
 	let startLooking = false;
 	function checkBreak(c: string) {
+		return false;
 		lastNewline++;
 		if (c === '\n') {
 			startLooking = false;
@@ -168,9 +169,9 @@
 
 <svelte:window on:keydown|preventDefault={onKeyDown} />
 
-<div class="mt-12 h-full">
-	<div class="flex h-[70vh] w-full flex-col items-center justify-center xl:w-[70vw]">
-		<div class="text-container" bind:this={textContainer}>
+<div class="mt-12 flex h-full flex-col items-center justify-center">
+	<div class="flex h-[70vh] w-full flex-col items-center justify-center">
+		<div class="text-container mx-auto max-w-4xl" bind:this={textContainer}>
 			{#each type_state.text as t, i (i)}
 				{#if i >= bounds_pre.lower && i < bounds_post.upper}
 					{@const needBreak = checkBreak(t)}
