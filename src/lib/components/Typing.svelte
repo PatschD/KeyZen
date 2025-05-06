@@ -2,7 +2,7 @@
 	import { timer } from '$lib/timer.svelte';
 	import { type_state } from '$lib/typeState.svelte';
 	import { updateUnderline } from '$lib/typing';
-	import { untrack } from 'svelte';
+	import { onMount, untrack } from 'svelte';
 	import Metrics from './Metrics.svelte';
 	import { stats } from '$lib/stats.svelte';
 	import Mode from './Mode.svelte';
@@ -134,6 +134,36 @@
 					: 'text-red-200';
 		}
 	}
+	let maxLineWidth = 40;
+	let tolerance = 10;
+	let lastNewline = 0;
+	onMount(() => (lastNewline = 0));
+	let startLooking = false;
+	function checkBreak(c: string) {
+		lastNewline++;
+		if (c === '\n') {
+			startLooking = false;
+			lastNewline = 0;
+			return;
+		}
+		if (lastNewline > maxLineWidth + tolerance) {
+			startLooking = false;
+			lastNewline = 0;
+			return;
+		}
+
+		if (lastNewline % maxLineWidth === 0) {
+			startLooking = true;
+		}
+		if (startLooking) {
+			if (c === ' ') {
+				startLooking = false;
+				lastNewline = 0;
+				return true;
+			}
+		}
+		return false;
+	}
 </script>
 
 <svelte:window on:keydown|preventDefault={onKeyDown} />
@@ -143,6 +173,7 @@
 		<div class="text-container" bind:this={textContainer}>
 			{#each type_state.text as t, i (i)}
 				{#if i >= bounds_pre.lower && i < bounds_post.upper}
+					{@const needBreak = checkBreak(t)}
 					{@const inBounds = i >= bounds.lower && i < bounds.upper}
 					{@const color = getColor(i, type_state, inBounds)}
 					<span
@@ -159,6 +190,9 @@
 							{t}
 						{/if}
 					</span>
+					{#if needBreak}
+						<div class="flex-break"></div>
+					{/if}
 					{#if t === '\n'}
 						<div class="flex-break"></div>
 					{/if}
