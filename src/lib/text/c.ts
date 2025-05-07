@@ -351,4 +351,4 @@ int main() {
     printf("\nTask list freed successfully.\n");
     
     return 0;
-}`;
+}`.replaceAll('    ', '\t');

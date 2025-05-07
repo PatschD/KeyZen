@@ -449,4 +449,4 @@ fn main() -> Result<()> {
     }
     
     Ok(())
-}`;
+}`.replaceAll('    ', '\t');
