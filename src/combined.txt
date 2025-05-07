@@ -391,7 +391,7 @@ export const practiceWords = $state({
 	import { timer } from '$lib/timer.svelte';
 	import { type_state } from '$lib/typeState.svelte';
 	import { updateUnderline } from '$lib/typing';
-	import { untrack } from 'svelte';
+	import { onMount, untrack } from 'svelte';
 	import Metrics from './Metrics.svelte';
 	import { stats } from '$lib/stats.svelte';
 	import Mode from './Mode.svelte';
@@ -523,18 +523,53 @@ export const practiceWords = $state({
 					: 'text-red-200';
 		}
 	}
+	let maxLineWidth = 35;
+	let tolerance = 5;
+	let lastNewline = 0;
+	onMount(() => (lastNewline = 0));
+	let startLooking = false;
+	function checkBreak(c: string) {
+		return false;
+		lastNewline++;
+		if (c === '\n') {
+			startLooking = false;
+			lastNewline = 0;
+			return;
+		}
+		if (lastNewline > maxLineWidth + tolerance) {
+			startLooking = false;
+			lastNewline = 0;
+			return;
+		}
+
+		if (lastNewline % maxLineWidth === 0) {
+			startLooking = true;
+		}
+		if (startLooking) {
+			if (c === ' ') {
+				startLooking = false;
+				lastNewline = 0;
+				return true;
+			}
+		}
+		return false;
+	}
 </script>
 
 <svelte:window on:keydown|preventDefault={onKeyDown} />
 
-<div class="mt-12 h-full">
-	<div class="flex h-[70vh] flex-col items-center justify-center md:w-[70vw]">
-		<div class="text-container" bind:this={textContainer}>
+<div class="mt-12 flex h-full flex-col items-center justify-center">
+	<div class="flex h-[70vh] w-full flex-col items-center justify-center">
+		<div class="text-container mx-auto max-w-5xl" bind:this={textContainer}>
 			{#each type_state.text as t, i (i)}
 				{#if i >= bounds_pre.lower && i < bounds_post.upper}
+					{@const needBreak = checkBreak(t)}
 					{@const inBounds = i >= bounds.lower && i < bounds.upper}
 					{@const color = getColor(i, type_state, inBounds)}
-					<span class={`mono-text ${color}`} id={`text_element_${i}`}>
+					<span
+						class={`mono-text ${color} text-xl md:text-2xl lg:text-3xl`}
+						id={`text_element_${i}`}
+					>
 						{#if t === ' '}
 							{displaySpace}
 						{:else if t === '\n'}
@@ -545,6 +580,9 @@ export const practiceWords = $state({
 							{t}
 						{/if}
 					</span>
+					{#if needBreak}
+						<div class="flex-break"></div>
+					{/if}
 					{#if t === '\n'}
 						<div class="flex-break"></div>
 					{/if}
@@ -578,7 +616,6 @@ export const practiceWords = $state({
 	}
 
 	.mono-text {
-		font-size: 2rem; /* Adjust as needed */
 		letter-spacing: normal; /* Or adjust if needed, but keep it consistent */
 		display: inline-block; /* Helps contain the text properly */
 	}

@@ -1,18 +1,35 @@
-# sv
+# KeyZen
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+KeyZen is an open-source application designed to help you improve your typing speed and accuracy through targeted practice.
 
-## Creating a project
+## Core Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Adaptive Learning:** Tailors practice sessions to your specific needs by analyzing your performance.
+- **Practice Modes:** Includes "Endless Typing" for continuous text, and "Code Typing" for practicing with code in languages like Python, JavaScript, Rust, and C.
+- **Progress Tracking:** Monitors your Words Per Minute (WPM) and accuracy.
+- **Difficulty Levels:** Offers various levels to match your skill.
 
-```bash
-# create a new project in the current directory
-npx sv create
+## Contributing
 
-# create a new project in my-app
-npx sv create my-app
-```
+Contributions to KeyZen are welcome and appreciated!
+
+**How to contribute:**
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes.
+4. Commit your changes and push to your branch.
+5. Open a Pull Request for review.
+
+You can help by:
+
+- Adding new practice texts or programming languages.
+- Improving the user interface or user experience.
+- Enhancing performance analysis.
+- Fixing bugs or writing tests.
+- Improving documentation.
+
+Please open an issue to report bugs or suggest new features.
 
 ## Developing
 
@@ -34,5 +51,3 @@ npm run build
 ```
 
 You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.

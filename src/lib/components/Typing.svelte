@@ -171,7 +171,7 @@
 
 <div class="mt-12 flex h-full flex-col items-center justify-center">
 	<div class="flex h-[70vh] w-full flex-col items-center justify-center">
-		<div class="text-container mx-auto max-w-4xl" bind:this={textContainer}>
+		<div class="text-container mx-auto max-w-5xl" bind:this={textContainer}>
 			{#each type_state.text as t, i (i)}
 				{#if i >= bounds_pre.lower && i < bounds_post.upper}
 					{@const needBreak = checkBreak(t)}
